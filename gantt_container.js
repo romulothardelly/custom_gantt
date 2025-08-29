@@ -87,6 +87,8 @@ const container = document.querySelector('.container');
                     <th class="title">Atividade</th>
                     <th  class="title">Status</th>
                     <th class="title">Progresso</th>
+                    <th class="title">Valor MR$<br>(exec/plan)</th>
+
                     ${months.map(month => `
                         <th class="monthshead">${month}</th>
                     `).join('')}
@@ -105,16 +107,22 @@ const container = document.querySelector('.container');
            console.log("Start d1= ",d1)
 
            const d2 = new Date(end);
-           activities.forEach(activity => {
+           activities.forEach((activity,i) => {
 
             function get_plan_info(activity){
                const plan_d1 = new Date(activity.base_initial_date);
-               const plan_d2 = new Date(activity.base_final_date);
-              
-               const delay_ms=(plan_d1-d1)
-               const delay_months=(delay_ms)/(1000*60*60*24*30);
-               const width_ms=plan_d2-plan_d1;
-               const width_months=(width_ms)/(1000*60*60*24*30);
+                const plan_d2 = new Date(activity.base_final_date);
+                console.log("Plan d1= ",plan_d1);
+                console.log("Plan d2= ", plan_d2);
+                console.log("D1= ",d1);
+                const delay_ms = (plan_d1 - d1)
+                console.log("Delay ms= ",delay_ms);
+                const delay_months = (delay_ms) / (1000 * 60 * 60 * 24 * 365/12);
+                console.log("Delay months= ",delay_months);
+                const width_ms = plan_d2 - plan_d1;
+                console.log("Width ms= ",width_ms);
+                const width_months = (width_ms) / (1000 * 60 * 60 * 24 * 365/12);
+                console.log("Width months= ",width_months);
                return [delay_months,width_months];
 
             }
@@ -123,29 +131,30 @@ const container = document.querySelector('.container');
             function get_exec_info(activity){
                 console.log(activity)
                 const exec_d1 = new Date(activity.exe_inicial_date);
-                const exec_d2 = new Date(activity.exe_final_date);
-                console.log("Exec d1= ",exec_d1)
-                console.log("Exec d2= ",exec_d2)
+               const exec_d2 = new Date(activity.exe_final_date);
+               //console.log("Exec d1= ",exec_d1)
+                //console.log("Exec d2= ",exec_d2)
                 const today= new Date();
 
                const delay_ms=(exec_d1-d1)
                const delay_months=(delay_ms)/(1000*60*60*24*30);
                const width_ms=today-exec_d1;
                const width_months=(width_ms)/(1000*60*60*24*30);
-               console.log("Exec delay months= ",delay_months);
-               console.log("Exec width months= ",width_months);
+               //console.log("Exec delay months= ",delay_months);
+               //console.log("Exec width months= ",width_months);
                return [delay_months,width_months];
            }
            const[exec_delay,exec_width]=get_exec_info(activity);
 
                let htmlx=`
                    <tr>
-                       <td class="col1">${activity.name}</td>
-                       <td class="col2">${activity.status}</td>
-                       <td class="col3"><div class="status"><span class="dot red"> </span></div></td>
-                       <td colspan="24">
-                           <div class="bar planbar" style="margin-left: calc(100% / 12 * ${plan_delay});width: calc(100% / 12 * ${plan_width});"></div>
-                           <div class="bar actualbar"style="margin-left: calc(100% / 12 * ${exec_delay});width: calc(100% / 12 * ${exec_width});background-image:linear-gradient(to right, rgb(3, 87, 3) 0%, rgb(3, 87, 3) 100%);" ></div>
+                       <td class="col1 ${i%2 === 0 ? 'gray' : ''}" >${activity.name}</td>
+                       <td class="col2 ${i%2 === 0 ? 'gray' : ''}">${activity.status}</td>
+                       <td class="col3 ${i % 2 === 0 ? 'gray' : ''}"><div class="status"><span class="dot red"> </span></div></td>
+                          <td class="col4 ${i % 2 === 0 ? 'gray' : ''}">${(activity.exec_value/1000000).toFixed(0)} / ${(activity.base_value/1000000).toFixed(0)}</td>
+                       <td colspan="24" class="${i%2 === 0 ? 'gray' : ''}">
+                           <div class="bar planbar" style="margin-left: calc(100% / 12 * ${plan_delay});width: calc(100% / 12 * ${plan_width});" title="${activity.base_notes}"></div>
+                           <div class="bar actualbar"style="margin-left: calc(100% / 12 * ${exec_delay});width: calc(100% / 12 * ${exec_width});background-image:linear-gradient(to right, rgb(3, 87, 3) 0%, rgb(3, 87, 3) 100%);" title="${activity.exe_notes}"></div>
                        </td>            
                    </tr>
                `;
