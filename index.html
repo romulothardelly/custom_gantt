@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My gannt</title>
+    <link rel="stylesheet" href="gantt.css">
+    <script src="activities.js"></script>
+    
+
+</head>
+<body>
+    <div class="container"></div>
+    <script src="gantt_container.js"></script>
+    <script>
+        
+    container.addTable(activities);
+
+    console.log(container.getStart(activities));
+    console.log(container.getEnd(activities));
+    console.log(container.getMonthsBetween(activities));
+
+    </script>
+    
+    
+</body>
+</html>
