@@ -7,10 +7,10 @@ const container = document.querySelector('.container');
             topbar.innerHTML = `
                 <div>${title}</div>
                 <div class="legenda">
-                    Legenda:
+                    Status:
                     <div><span class="dot green"></span> Conforme planejado </div>
                     <div><span class="dot yellow"></span> Alerta </div>
-                    <div><span class="dot orange"></span> Atrasado </div>
+                    <div><span class="dot purple"></span> Atrasado </div>
                     <div><span class="dot red"></span> Crítico </div>
                 </div>
             `;
@@ -60,20 +60,13 @@ const container = document.querySelector('.container');
     }
     return monthsBetween;
 }
-    /*<table>
-        <tr>
-            <th class="col1">Atividade</th>
-            <th class="col2">Status</th>
-            <th class="col3">Progresso</th>            
-            <th class="monthshead">Jul/25</th>
-            <th class="monthshead">Aug/25</th>
-            <th class="monthshead">Sep/25</th>
-            <th class="monthshead">Oct/25</th>
-            <th class="monthshead">Nov/25</th>
-            <th class="monthshead">Dec/25</th>
+container.getStatus = function (s) {
+    if(s==="Conforme planejado") return "dot green";
+    if(s==="Alerta") return "dot yellow";
+    if(s==="Atrasado") return "dot purple";
+    if(s==="Crítico") return "dot red";
+}
 
-        </tr>
-        </table>*/
     container.addTable=function(activities){
         const table=document.createElement('table');
         const months=this.getMonthsBetween(activities);
@@ -149,8 +142,8 @@ const container = document.querySelector('.container');
                let htmlx=`
                    <tr>
                        <td class="col1 ${i%2 === 0 ? 'gray' : ''}" >${activity.name}</td>
-                       <td class="col2 ${i%2 === 0 ? 'gray' : ''}">${activity.status}</td>
-                       <td class="col3 ${i % 2 === 0 ? 'gray' : ''}"><div class="status"><span class="dot red"> </span></div></td>
+                       <td class="col2 ${i%2 === 0 ? 'gray' : ''} "><div style="text-align: center"><span class="${container.getStatus(activity.status)}"></span></div></td>
+                       <td class="col3 ${i % 2 === 0 ? 'gray' : ''}">${activity.progress.toFixed(0)} %</td>
                           <td class="col4 ${i % 2 === 0 ? 'gray' : ''}">${(activity.exec_value/1000000).toFixed(0)} / ${(activity.base_value/1000000).toFixed(0)}</td>
                        <td colspan="24" class="${i%2 === 0 ? 'gray' : ''}">
                            <div class="bar planbar" style="margin-left: calc(100% / 12 * ${plan_delay});width: calc(100% / 12 * ${plan_width});" title="${activity.base_notes}"></div>
@@ -165,4 +158,6 @@ const container = document.querySelector('.container');
         table.addLines(activities,start,end);
 
         container.appendChild(table);
-    }
+}
+    
+container.addTable(activities);

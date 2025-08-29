@@ -1,7 +1,7 @@
 const activities = [];
 activities.push({
         name: "Atividade 1",
-        status: "Em andamento",
+        status: "Conforme planejado",
         progress: 45,
         base_initial_date: "2025-06-01",
         base_final_date: "2025-07-01",
@@ -17,7 +17,7 @@ activities.push({
     })
     activities.push({
         name: "Atividade 2",
-        status: "Em andamento",
+        status: "Alerta",
         progress: 30,
         base_initial_date: "2025-07-01",
         base_final_date: "2025-08-01",
@@ -32,7 +32,7 @@ activities.push({
     })
     activities.push({
         name: "Atividade 3",
-        status: "Em andamento",
+        status: "Atrasado",
         progress: 15,
         base_initial_date: "2025-01-01",
         base_final_date: "2025-12-31",
@@ -47,7 +47,7 @@ activities.push({
     })
     activities.push({
         name: "Atividade 4",
-        status: "Em andamento",
+        status: "Crítico",
         progress: 15,
         base_initial_date: "2025-01-01",
         base_final_date: "2025-03-01",
@@ -63,7 +63,7 @@ activities.push({
 
     activities.push({
         name: "Atividade 5",
-        status: "Em andamento",
+        status: "Crítico",
         progress: 45,
         base_initial_date: "2025-12-01",
         base_final_date: "2025-12-31",
